@@ -27,6 +27,8 @@ const signIn = catchAsync(async (req, res) => {
       data: user,
       token: generateToken(user._id),
     });
+  } else {
+    throw new Error("Email or password incorrect");
   }
 });
 const getAllUser = catchAsync(async (req, res) => {

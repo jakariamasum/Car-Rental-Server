@@ -9,7 +9,7 @@ const createBookingIntoDB = async (payload: TBooking) => {
 };
 
 const getAllBookingFromDB = async () => {
-  const result = await Booking.find();
+  const result = await Booking.find().populate("user");
   return result;
 };
 const getSingleBookingFromDB = async (id: string) => {
@@ -17,8 +17,19 @@ const getSingleBookingFromDB = async (id: string) => {
   return result;
 };
 
+const getUsersBookingFromDB = async (email: string) => {
+  console.log("service", email);
+  const result = await Booking.find().populate({
+    path: "user",
+    match: { email: email },
+  });
+  const filteredResult = result.filter((booking) => booking.user !== null);
+  return filteredResult;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
   getSingleBookingFromDB,
+  getUsersBookingFromDB,
 };

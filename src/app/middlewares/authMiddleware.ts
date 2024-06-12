@@ -7,12 +7,14 @@ import httpStatus from "http-status";
 interface DecodedToken {
   id: string;
   role: "user" | "admin";
+  email: string;
 }
 
 declare module "express-serve-static-core" {
   interface Request {
     _id?: string;
     role?: "user" | "admin";
+    email?: string;
   }
 }
 
@@ -36,6 +38,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     ) as DecodedToken;
     req._id = decodedToken.id;
     req.role = decodedToken.role;
+    req.email = decodedToken.email;
     next();
   } catch (error) {
     return sendResponse(res, {

@@ -25,7 +25,7 @@ const signIn = catchAsync(async (req, res) => {
       statusCode: httpStatus.OK,
       message: "User logged in successfully",
       data: user,
-      token: generateToken(user._id, user.role),
+      token: generateToken(user._id, user.role, user.email),
     });
   } else {
     throw new Error("Email or password incorrect");

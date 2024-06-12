@@ -8,7 +8,12 @@ const router = express.Router();
 router.post("/", authMiddleware, isAdminMiddleware, CarControllers.createCar);
 router.get("/", CarControllers.getAllCar);
 router.get("/:id", CarControllers.getSingleCar);
-router.put("/:id", CarControllers.updateCar);
-router.delete("/:id", CarControllers.deleteCar);
+router.put("/:id", authMiddleware, isAdminMiddleware, CarControllers.updateCar);
+router.delete(
+  "/:id",
+  authMiddleware,
+  isAdminMiddleware,
+  CarControllers.deleteCar
+);
 
 export const CarRoutes = router;

@@ -22,7 +22,13 @@ router.put(
   isAdminMiddleware,
   CarControllers.returnCar
 );
-router.put("/:id", authMiddleware, isAdminMiddleware, CarControllers.updateCar);
+router.put(
+  "/:id",
+  validateRequest(CarValidations.updateCarValidationSchema),
+  authMiddleware,
+  isAdminMiddleware,
+  CarControllers.updateCar
+);
 router.delete(
   "/:id",
   authMiddleware,

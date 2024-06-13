@@ -7,5 +7,4 @@ export type TBooking = {
   startTime: string;
   endTime: string;
   totalCost: number;
-  isBooked: "unconfirmed" | "confirmed";
 };

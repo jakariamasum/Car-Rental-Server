@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const createUserSchemaValidation = z.object({
+const signUpSchemaValidation = z.object({
   body: z.object({
     name: z.string(),
     email: z.string(),
@@ -11,6 +11,14 @@ const createUserSchemaValidation = z.object({
   }),
 });
 
+const sinInSchemaValidation = z.object({
+  body: z.object({
+    email: z.string(),
+    password: z.string(),
+  }),
+});
+
 export const UserValidations = {
-  createUserSchemaValidation,
+  signUpSchemaValidation,
+  sinInSchemaValidation,
 };

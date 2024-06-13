@@ -20,11 +20,12 @@ const signIn = catchAsync(async (req, res) => {
   const user = await UserServices.getSingleUserFromDB(email);
 
   if (user && (await user.matchPassword(password))) {
+    const { password, ...userWithoutPassword } = user.toObject();
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "User logged in successfully",
-      data: user,
+      data: userWithoutPassword,
       token: generateToken(user._id, user.role, user.email),
     });
   } else {

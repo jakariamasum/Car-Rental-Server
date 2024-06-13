@@ -4,8 +4,16 @@ import {
   authMiddleware,
   isAdminMiddleware,
 } from "../../middlewares/authMiddleware";
+import { CarValidations } from "./car.validation";
+import validateRequest from "../../middlewares/validateRequest";
 const router = express.Router();
-router.post("/", authMiddleware, isAdminMiddleware, CarControllers.createCar);
+router.post(
+  "/",
+  validateRequest(CarValidations.createCarValidationSchema),
+  authMiddleware,
+  isAdminMiddleware,
+  CarControllers.createCar
+);
 router.get("/", CarControllers.getAllCar);
 router.get("/:id", CarControllers.getSingleCar);
 router.put(

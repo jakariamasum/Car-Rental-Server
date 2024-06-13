@@ -25,6 +25,9 @@ const getAllCar = catchAsync(async (req, res) => {
 const getSingleCar = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.getSingleCarFromDB(id);
+  if (!result) {
+    throw new Error("Car not found");
+  }
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -36,6 +39,9 @@ const getSingleCar = catchAsync(async (req, res) => {
 const updateCar = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.updateCarIntoDB(id, req.body);
+  if (!result) {
+    throw new Error("Car not found");
+  }
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -46,10 +52,13 @@ const updateCar = catchAsync(async (req, res) => {
 const deleteCar = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.deleteCarFromDB(id);
+  if (!result) {
+    throw new Error("Car not found");
+  }
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Car updated successfully",
+    message: "Car Deleted successfully",
     data: result,
   });
 });
@@ -57,6 +66,9 @@ const deleteCar = catchAsync(async (req, res) => {
 const returnCar = catchAsync(async (req, res) => {
   const { bookingId, endTime } = req.body;
   const result = await CarServices.returnCarFromDB(bookingId, endTime);
+  if (!result) {
+    throw new Error("Car not found");
+  }
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

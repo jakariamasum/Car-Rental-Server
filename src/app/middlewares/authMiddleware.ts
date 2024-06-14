@@ -20,14 +20,13 @@ declare module "express-serve-static-core" {
 
 // Middleware to verify JWT token and user role
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Extract token from Authorization header
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
     console.log("Missing token");
     return sendResponse(res, {
       success: false,
       statusCode: httpStatus.UNAUTHORIZED,
-      message: "Unauthorized: Missing token",
-      data: "",
+      message: "You have no access to this route",
     });
   }
 
@@ -44,8 +43,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     return sendResponse(res, {
       success: false,
       statusCode: httpStatus.UNAUTHORIZED,
-      message: "Unauthorized: Invalid token",
-      data: "",
+      message: "You have no access to this route",
     });
   }
 };

@@ -31,13 +31,29 @@ const createBookingIntoDB = async (payload: TBooking) => {
     throw error;
   }
 
-  await (await createdBooking.populate("car")).populate("user");
-
+  await (
+    await createdBooking.populate("car")
+  ).populate({
+    path: "user",
+    select: "-password",
+  });
   return createdBooking;
 };
 
-const getAllBookingFromDB = async () => {
-  const result = await Booking.find().populate("user");
+const getAllBookingFromDB = async (filter: any) => {
+  const queryConditions: any[] = [];
+  if (filter.car) {
+    queryConditions.push({ car: filter.car });
+  }
+  if (filter.date) {
+    queryConditions.push({ date: filter.date });
+  }
+
+  const query = queryConditions.length > 0 ? { $and: queryConditions } : {};
+  const result = await Booking.find(query).populate("car").populate({
+    path: "user",
+    select: "-password",
+  });
   return result;
 };
 const getSingleBookingFromDB = async (id: string) => {

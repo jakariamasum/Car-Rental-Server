@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import calculateDurationInHours from "../../utils/calculateDurationInHours";
+import { TBooking } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.model";
 import { TCar } from "./car.interface";
 import { Car } from "./car.model";
@@ -41,7 +43,9 @@ const returnCarFromDB = async (id: string, endTime: string) => {
 
   try {
     session.startTransaction();
-    const existingBooking = await Booking.findOne({ _id: id }).populate("car");
+    const existingBooking: TBooking | null = await Booking.findOne({ _id: id })
+      .populate("car")
+      .session(session);
 
     if (!existingBooking) {
       throw new Error("Booking not found");
@@ -52,7 +56,12 @@ const returnCarFromDB = async (id: string, endTime: string) => {
       existingBooking.startTime,
       endTime
     );
-    const total = duration * existingBooking.car.pricePerHour;
+    let total;
+    if (!(existingBooking.car instanceof mongoose.Types.ObjectId)) {
+      const { pricePerHour } = existingBooking.car;
+      console.log(pricePerHour);
+      total = duration * pricePerHour;
+    }
 
     // Update the car status to "available"
     await Car.findOneAndUpdate(
@@ -78,7 +87,12 @@ const returnCarFromDB = async (id: string, endTime: string) => {
     session.endSession();
 
     // Fetch and return the updated booking
-    const updatedBooking = await Booking.findOne({ _id: id }).populate("car");
+    const updatedBooking = await Booking.findOne({ _id: id })
+      .populate("car")
+      .populate({
+        path: "user",
+        select: "-password",
+      });
     return updatedBooking;
   } catch (error) {
     await session.abortTransaction();

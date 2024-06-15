@@ -50,10 +50,13 @@ const getAllBookingFromDB = async (filter: any) => {
   }
 
   const query = queryConditions.length > 0 ? { $and: queryConditions } : {};
-  const result = await Booking.find(query).populate("car").populate({
-    path: "user",
-    select: "-password",
-  });
+  console.log(query);
+  const result = await Booking.find(query)
+    .populate({
+      path: "user",
+      select: "-password",
+    })
+    .populate("car");
   return result;
 };
 const getSingleBookingFromDB = async (id: string) => {

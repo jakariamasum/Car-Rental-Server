@@ -63,10 +63,13 @@ const getSingleBookingFromDB = async (id: string) => {
 
 const getUsersBookingFromDB = async (email: string) => {
   console.log("service", email);
-  const result = await Booking.find().populate({
-    path: "user",
-    match: { email: email },
-  });
+  const result = await Booking.find()
+    .populate("car")
+    .populate({
+      path: "user",
+      select: "-password",
+      match: { email: email },
+    });
   const filteredResult = result.filter((booking) => booking.user !== null);
   return filteredResult;
 };

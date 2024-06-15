@@ -53,9 +53,8 @@ const isAdminMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (req.role !== "admin") {
     return sendResponse(res, {
       success: false,
-      statusCode: httpStatus.FORBIDDEN,
-      message: "Forbidden: Access denied. Only admins are allowed",
-      data: "",
+      statusCode: httpStatus.UNAUTHORIZED,
+      message: "You have no access to this route",
     });
   }
   next();
@@ -65,9 +64,8 @@ const isUserMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (req.role !== "user") {
     return sendResponse(res, {
       success: false,
-      statusCode: httpStatus.FORBIDDEN,
-      message: "Forbidden: Access denied. Only users are allowed",
-      data: "",
+      statusCode: httpStatus.UNAUTHORIZED,
+      message: "You have no access to this route",
     });
   }
   next();

@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { CarServices } from "./car.service";
+import handleAppErros from "../../errors/handleAppErros";
 
 const createCar = catchAsync(async (req, res) => {
   const result = await CarServices.createCarIntoDB(req.body);
@@ -35,7 +36,7 @@ const getSingleCar = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.getSingleCarFromDB(id);
   if (!result) {
-    throw new Error("Car not found");
+    throw new handleAppErros(404, "Car not found");
   }
   sendResponse(res, {
     success: true,
@@ -49,7 +50,7 @@ const updateCar = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.updateCarIntoDB(id, req.body);
   if (!result) {
-    throw new Error("Car not found");
+    throw new handleAppErros(404, "Car not found");
   }
   sendResponse(res, {
     success: true,
@@ -62,7 +63,7 @@ const deleteCar = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.deleteCarFromDB(id);
   if (!result) {
-    throw new Error("Car not found");
+    throw new handleAppErros(404, "Car not found");
   }
   sendResponse(res, {
     success: true,
@@ -76,7 +77,7 @@ const returnCar = catchAsync(async (req, res) => {
   const { bookingId, endTime } = req.body;
   const result = await CarServices.returnCarFromDB(bookingId, endTime);
   if (!result) {
-    throw new Error("Car not found");
+    throw new handleAppErros(404, "Car not found");
   }
   sendResponse(res, {
     success: true,

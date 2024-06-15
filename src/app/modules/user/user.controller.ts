@@ -5,6 +5,7 @@ import { UserServices } from "./user.service";
 import generateToken from "../../utils/generateToken";
 import bcrypt from "bcrypt";
 import config from "../../config";
+import handleAppErros from "../../errors/handleAppErros";
 
 const signUp = catchAsync(async (req, res) => {
   const result = await UserServices.signUpIntoDB(req.body);
@@ -29,7 +30,7 @@ const signIn = catchAsync(async (req, res) => {
       token: generateToken(user._id, user.role, user.email),
     });
   } else {
-    throw new Error("Email or password incorrect");
+    throw new handleAppErros(404, "Email or password incorrect");
   }
 });
 const getAllUser = catchAsync(async (req, res) => {

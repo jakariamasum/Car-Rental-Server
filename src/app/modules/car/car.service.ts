@@ -4,6 +4,7 @@ import { TBooking } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.model";
 import { TCar } from "./car.interface";
 import { Car } from "./car.model";
+import handleAppErros from "../../errors/handleAppErros";
 
 const createCarIntoDB = async (payload: TCar) => {
   const result = await Car.create(payload);
@@ -48,7 +49,7 @@ const returnCarFromDB = async (id: string, endTime: string) => {
       .session(session);
 
     if (!existingBooking) {
-      throw new Error("Booking not found");
+      throw new handleAppErros(404, "Booking not found");
     }
 
     // Calculate total cost
@@ -97,7 +98,7 @@ const returnCarFromDB = async (id: string, endTime: string) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    throw new Error("Error returning car");
+    throw new handleAppErros(404, "Error returning car");
   }
 };
 

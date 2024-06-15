@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { Car } from "../car/car.model";
+import handleAppErros from "../../errors/handleAppErros";
 
 const createBookingIntoDB = async (payload: TBooking) => {
   let createdBooking;
@@ -20,7 +21,7 @@ const createBookingIntoDB = async (payload: TBooking) => {
     );
 
     if (!updatedCar) {
-      throw new Error("Car not found");
+      throw new handleAppErros(404, "Car not found");
     }
 
     await session.commitTransaction();

@@ -7,4 +7,9 @@ export type TCar = {
   features: string[];
   pricePerHour: number;
   isDeleted: boolean;
+  image: string;
+  year: string;
+  mileage: string;
+  fuelType: string;
+  transmission: string;
 };

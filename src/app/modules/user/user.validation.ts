@@ -6,8 +6,8 @@ const signUpSchemaValidation = z.object({
     email: z.string(),
     role: z.enum(["user", "admin"]),
     password: z.string(),
-    phone: z.string(),
-    address: z.string(),
+    phone: z.string().optional(),
+    address: z.string().optional(),
   }),
 });
 

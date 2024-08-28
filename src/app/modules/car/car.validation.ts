@@ -9,6 +9,11 @@ const createCarValidationSchema = z.object({
     status: z.enum(["available", "unavailable"]).default("available"),
     features: z.array(z.string()).default([]),
     pricePerHour: z.number().nonnegative(),
+    fuelType: z.string(),
+    image: z.string(),
+    mileage: z.string(),
+    transmission: z.string(),
+    year: z.string(),
   }),
 });
 const updateCarValidationSchema = z.object({
@@ -23,6 +28,11 @@ const updateCarValidationSchema = z.object({
       .optional(),
     features: z.array(z.string()).default([]).optional(),
     pricePerHour: z.number().nonnegative().optional(),
+    fuelType: z.string().optional(),
+    image: z.string().optional(),
+    mileage: z.string().optional(),
+    transmission: z.string().optional(),
+    year: z.string().optional(),
   }),
 });
 

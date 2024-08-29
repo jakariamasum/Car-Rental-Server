@@ -14,6 +14,7 @@ router.post(
   validateRequest(UserValidations.sinInSchemaValidation),
   UserControllers.signIn
 );
+router.put("/:id", UserControllers.updateUser);
 router.get("/", UserControllers.getAllUser);
 router.get("/:userId", UserControllers.getSingleUser);
 

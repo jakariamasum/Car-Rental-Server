@@ -3,8 +3,6 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { UserServices } from "./user.service";
 import generateToken from "../../utils/generateToken";
-import bcrypt from "bcrypt";
-import config from "../../config";
 import handleAppErros from "../../errors/handleAppErros";
 
 const signUp = catchAsync(async (req, res) => {
@@ -17,7 +15,7 @@ const signUp = catchAsync(async (req, res) => {
   });
 });
 const signIn = catchAsync(async (req, res) => {
-  let { email, password } = req.body;
+  const { email, password } = req.body;
   const user = await UserServices.getSingleUserFromDB(email);
 
   if (user && (await user.matchPassword(password))) {
@@ -52,10 +50,21 @@ const getSingleUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await UserServices.updateUserIntoDB(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User data updated successfully!",
+    data: result,
+  });
+});
 
 export const UserControllers = {
   signUp,
   signIn,
   getAllUser,
   getSingleUser,
+  updateUser,
 };

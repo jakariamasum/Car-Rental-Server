@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from "jsonwebtoken";
 import config from "../config";
 const generateToken = (id: any, role: string, email: string) => {

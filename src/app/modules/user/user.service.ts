@@ -18,6 +18,7 @@ const signInIntoDB = async (payload: TUser) => {
 
   return userWithoutPassword;
 };
+
 const getAllUsersFromDB = async () => {
   const result = await User.find();
   return result;

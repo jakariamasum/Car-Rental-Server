@@ -15,17 +15,30 @@ router.post(
   isUserMiddleware,
   BookingControllers.createBooking
 );
+router.get("/", BookingControllers.getAllBooking);
 router.get(
-  "/",
+  "/my-bookings",
   authMiddleware,
-  isAdminMiddleware,
-  BookingControllers.getAllBooking
+  isUserMiddleware,
+  BookingControllers.getUserBookings
 );
 router.get(
   "/my-bookings",
   authMiddleware,
   isUserMiddleware,
   BookingControllers.getUserBookings
+);
+router.put(
+  "/my-bookings/:id",
+  authMiddleware,
+  isUserMiddleware,
+  BookingControllers.updateBooking
+);
+router.delete(
+  "/my-bookings/:id",
+  authMiddleware,
+  isUserMiddleware,
+  BookingControllers.deleteBooking
 );
 
 export const BookingRoutes = router;

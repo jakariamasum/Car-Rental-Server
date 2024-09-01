@@ -26,6 +26,10 @@ const bookingSchema = new Schema<TBooking>(
       type: Number,
       default: 0,
     },
+    status: {
+      type: String,
+      default: "pending",
+    },
   },
   { timestamps: true }
 );

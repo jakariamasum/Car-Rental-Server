@@ -5,5 +5,6 @@ export type TUser = {
   password: string;
   phone?: string;
   address?: string;
+  status: "active" | "block";
   matchPassword(enteredPassword: string): Promise<boolean>;
 };

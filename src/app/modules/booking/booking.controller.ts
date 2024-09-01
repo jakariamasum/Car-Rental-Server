@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { BookingServices } from "./booking.service";
-import { TBooking } from "./booking.interface";
+import handleAppErros from "../../errors/handleAppErros";
 
 const createBooking = catchAsync(async (req, res) => {
   const { carId, ...otherDetails } = req.body;
@@ -63,9 +64,37 @@ const getUserBookings = catchAsync(async (req, res) => {
     });
   }
 });
+const updateBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BookingServices.updateBookingIntoDB(id, req.body);
+  if (!result) {
+    throw new handleAppErros(404, "Booking not found");
+  }
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: " Bookings updated successfully",
+    data: result,
+  });
+});
+const deleteBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BookingServices.deleteBookingFromDB(id);
+  if (!result) {
+    throw new handleAppErros(404, "Booking not found");
+  }
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "My Bookings retrieved successfully",
+    data: result,
+  });
+});
 
 export const BookingControllers = {
   createBooking,
   getAllBooking,
   getUserBookings,
+  updateBooking,
+  deleteBooking,
 };

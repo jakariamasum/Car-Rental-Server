@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const createBookingSchemaValidation = z.object({
   body: z.object({
-    carId: z.string(),
+    car: z.string(),
     date: z.string(),
     startTime: z.string(),
   }),

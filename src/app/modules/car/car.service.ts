@@ -15,6 +15,17 @@ const getAllCarsFromDB = async () => {
   const result = await Car.find({ isDeleted: false });
   return result;
 };
+
+const getCarsBySearchFromDB = async (search: string) => {
+  const result = await Car.find({
+    $or: [
+      { name: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+      { pricePerHour: { $regex: search, $options: "i" } },
+    ],
+  });
+  return result;
+};
 const getSingleCarFromDB = async (id: string) => {
   const result = await Car.findOne({ _id: id });
   return result;
@@ -109,4 +120,5 @@ export const CarServices = {
   updateCarIntoDB,
   deleteCarFromDB,
   returnCarFromDB,
+  getCarsBySearchFromDB,
 };

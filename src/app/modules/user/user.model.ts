@@ -8,6 +8,12 @@ const userSchema = new Schema<TUser>(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, required: true, enum: ["user", "admin"] },
+    status: {
+      type: String,
+      required: true,
+      enum: ["active", "block"],
+      default: "active",
+    },
     password: { type: String, required: true },
     phone: { type: String },
     address: { type: String },

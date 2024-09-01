@@ -31,6 +31,26 @@ const getAllCar = catchAsync(async (req, res) => {
     });
   }
 });
+const getCarsBySearch = catchAsync(async (req, res) => {
+  const { searchTerm } = req.params;
+  const result = await CarServices.getCarsBySearchFromDB(searchTerm);
+  console.log(result);
+  if (result.length > 0) {
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Cars retrieved successfully",
+      data: result,
+    });
+  } else {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "No data found",
+      data: result,
+    });
+  }
+});
 
 const getSingleCar = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -94,4 +114,5 @@ export const CarControllers = {
   updateCar,
   deleteCar,
   returnCar,
+  getCarsBySearch,
 };

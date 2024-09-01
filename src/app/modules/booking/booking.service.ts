@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
@@ -55,7 +56,7 @@ const getAllBookingFromDB = async (filter: any) => {
   const result = await Booking.find(query)
     .populate({
       path: "user",
-      select: "-password",
+      select: "-password ",
     })
     .populate("car");
   return result;
@@ -78,9 +79,22 @@ const getUsersBookingFromDB = async (email: string) => {
   return filteredResult;
 };
 
+const updateBookingIntoDB = async (id: string, payload: Partial<TBooking>) => {
+  const result = await Booking.findByIdAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+const deleteBookingFromDB = async (id: string) => {
+  const result = await Booking.findByIdAndDelete({ _id: id });
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
   getSingleBookingFromDB,
   getUsersBookingFromDB,
+  updateBookingIntoDB,
+  deleteBookingFromDB,
 };

@@ -16,6 +16,8 @@ router.post(
 );
 router.get("/", CarControllers.getAllCar);
 router.get("/:id", CarControllers.getSingleCar);
+
+router.get("/search/:searchTerm", CarControllers.getCarsBySearch);
 router.put(
   "/return",
   authMiddleware,

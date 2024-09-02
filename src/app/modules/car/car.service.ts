@@ -13,9 +13,7 @@ const createCarIntoDB = async (payload: TCar) => {
 };
 
 const getAllCarsFromDB = async () => {
-  const result = await Car.find({
-    $or: [{ isDeleted: false }, { status: "available" }],
-  });
+  const result = await Car.find({ isDeleted: false });
   return result;
 };
 
@@ -50,6 +48,7 @@ const deleteCarFromDB = async (id: string) => {
       new: true,
     }
   );
+  console.log(result);
   return result;
 };
 

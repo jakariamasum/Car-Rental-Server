@@ -2,7 +2,9 @@ import { TUser } from "./user.interface";
 import { User } from "./user.model";
 
 const signUpIntoDB = async (payload: TUser) => {
+  console.log(payload);
   const result = await User.create(payload);
+  console.log(result);
   const userWithoutPassword = await User.findById(result._id).select(
     "-password"
   );

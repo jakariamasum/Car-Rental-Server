@@ -17,7 +17,7 @@ const bookingSchema = new Schema<TBooking>(
       ref: "Car",
       required: true,
     },
-    startTime: { type: String, required: true },
+    startTime: { type: String, default: null },
     endTime: {
       type: String,
       default: null,

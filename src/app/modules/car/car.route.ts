@@ -19,7 +19,7 @@ router.get("/:id", CarControllers.getSingleCar);
 
 router.get("/search/:searchTerm", CarControllers.getCarsBySearch);
 router.put(
-  "/return",
+  "/return/:id",
   authMiddleware,
   isAdminMiddleware,
   CarControllers.returnCar

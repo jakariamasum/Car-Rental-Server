@@ -94,8 +94,8 @@ const deleteCar = catchAsync(async (req, res) => {
 });
 
 const returnCar = catchAsync(async (req, res) => {
-  const { bookingId, endTime } = req.body;
-  const result = await CarServices.returnCarFromDB(bookingId, endTime);
+  const { id } = req.params;
+  const result = await CarServices.returnCarFromDB(id, req.body);
   if (!result) {
     throw new handleAppErros(404, "Car not found");
   }

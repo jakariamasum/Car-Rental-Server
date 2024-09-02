@@ -15,7 +15,21 @@ router.post(
   isUserMiddleware,
   BookingControllers.createBooking
 );
-router.get("/", BookingControllers.getAllBooking);
+router.put(
+  "/confirm-booking/:id",
+  authMiddleware,
+  isAdminMiddleware,
+  BookingControllers.confirmBooking
+);
+
+router.get(
+  "/",
+  authMiddleware,
+  isAdminMiddleware,
+  BookingControllers.getAllBooking
+);
+
+//user routes
 router.get(
   "/my-bookings",
   authMiddleware,

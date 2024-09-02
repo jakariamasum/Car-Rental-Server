@@ -77,6 +77,19 @@ const updateBooking = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const confirmBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BookingServices.confirmBookingIntoDB(id, req.body);
+  if (!result) {
+    throw new handleAppErros(404, "Booking not found");
+  }
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Booking confirmed successfully",
+    data: result,
+  });
+});
 const deleteBooking = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await BookingServices.deleteBookingFromDB(id);
@@ -97,4 +110,5 @@ export const BookingControllers = {
   getUserBookings,
   updateBooking,
   deleteBooking,
+  confirmBooking,
 };

@@ -7,5 +7,5 @@ export type TBooking = {
   startTime: string;
   endTime: string;
   totalCost: number;
-  status: "pending";
+  status: "pending" | "approved" | "canceled" | "returned";
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import calculateDurationInHours from "../../utils/calculateDurationInHours";
 import { TBooking } from "../booking/booking.interface";
@@ -12,7 +13,9 @@ const createCarIntoDB = async (payload: TCar) => {
 };
 
 const getAllCarsFromDB = async () => {
-  const result = await Car.find({ isDeleted: false });
+  const result = await Car.find({
+    $or: [{ isDeleted: false }, { status: "available" }],
+  });
   return result;
 };
 
@@ -50,7 +53,8 @@ const deleteCarFromDB = async (id: string) => {
   return result;
 };
 
-const returnCarFromDB = async (id: string, endTime: string) => {
+const returnCarFromDB = async (id: string, payload: any) => {
+  const endTime = payload?.endTime;
   const session = await Booking.startSession();
 
   try {
@@ -71,10 +75,8 @@ const returnCarFromDB = async (id: string, endTime: string) => {
     let total;
     if (!(existingBooking.car instanceof mongoose.Types.ObjectId)) {
       const { pricePerHour } = existingBooking.car;
-      console.log(pricePerHour);
       total = duration * pricePerHour;
     }
-
     // Update the car status to "available"
     await Car.findOneAndUpdate(
       { _id: existingBooking.car._id },
@@ -90,6 +92,7 @@ const returnCarFromDB = async (id: string, endTime: string) => {
           totalCost: total,
           endTime: endTime,
           isBooked: "confirmed",
+          status: "returned",
         },
       },
       { session }
